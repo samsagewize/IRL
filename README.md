@@ -1,34 +1,46 @@
-# Common Ground
+# IRL
 
-An opt-in social platform concept for people sharing coffee shops and public gathering places. Turn digital discovery into a welcome real-life hello.
+IRL helps people at the same coffee shop turn a digital invitation into a welcome real-world conversation.
 
-## Try the prototype
+**Status: pilot setup in progress; email sign-in is not active.** Fictional profiles and browser-only invitations have been removed. The current page describes the setup status. No seeded users, simulated messages, or localStorage authentication.
 
-Run `npm start` with Node.js, then open http://127.0.0.1:3000. No installation or build is required. On Vercel use the Other framework preset, no build command, and output directory `.`.
+## Collaboration
 
-1. Pick a sample café and check in for 60 minutes.
-2. Set your availability: a hello, coworking, or a coffee break.
-3. Filter fictional people by mood or search shared interests.
-4. Say hello with an editable icebreaker.
-5. View or withdraw invitations in My connections. Hide profiles or check out at any time.
+Public repository: https://github.com/samsagewize/IRL
 
-This is a browser-local interaction prototype, not a live social network. All people and cafés are fictional. There is no GPS tracking, account service, real message delivery, or simulated acceptance. Data is stored in localStorage on the current browser and can be cleared with Reset demo.
+Rowinator has been invited with write access. Use feature branches and pull requests. Never commit secrets, real tester information, email addresses, or location records.
 
-## Product principles
+## Pilot flow
 
-- Explicit, time-limited opt-in presence at a chosen venue. No automatic background location broadcasts.
-- Interest-led discovery rather than appearance-led swiping.
-- Invitations before approaches, mutual acceptance before meeting instructions, and no penalty for silence or declining.
-- Meet in public shared spaces. Never show precise seats or private location history.
+1. Sign in with a verified email using managed authentication.
+2. Create a first-name profile, interests, and a short introduction.
+3. Join the participating café through its link or QR code and opt in for a limited time.
+4. Discover only other currently checked-in people at that café, excluding blocks in both directions.
+5. Send a short, rate-limited invitation. The recipient can accept or decline.
+6. Only after mutual acceptance, agree to meet in the shared public space.
+7. Leave, withdraw an invitation, block a person, or report a problem at any time.
 
-## Roadmap to a live pilot
+A static QR code selects a café; it does not prove physical presence. Consider rotating or staff-provided venue codes before wider access. No Bluetooth or GPS is required for the initial pilot.
 
-Start with one participating café and consenting adult testers. Add authentication, a venue directory with owner-approved QR check-ins, server-enforced presence expiry, private profiles, and authenticated invitation delivery. Use a database for users, venues, check-ins, invitations, blocks, and reports. Enforce venue membership and visibility permissions on every read and write. Add explicit accept/decline, invitation limits, blocking/reporting, human moderation, retention/deletion controls, and abuse testing before opening discovery to the public. Only show venue-level presence to other checked-in users. Do not expose global browsing or precise coordinates.
+## Activation blockers
 
-The main validation question: does a mutual invitation make an in-person hello feel more welcome? Measure opt-in participation, mutually accepted introductions, comfort feedback, and unwanted-contact reports, with consent.
+Vercel project `prj_AZmsjutBRfbuxYu0WW2De65MtnDh`, team `samsagewizes-projects`.
 
-## Source
+The owner must review and accept provider terms before provisioning can finish:
 
-`index.html` is the page, `style.css` defines responsive styling, and `app.js` contains sample data and local interaction state. `server.mjs` provides a local preview. No runtime dependencies, credentials, analytics, or backend services are included. Google Fonts is optional; system fonts are fallback.
+- Clerk: https://vercel.com/samsagewizes-projects/~/integrations/accept-terms/clerk?source=cli
+- Neon: https://vercel.com/samsagewizes-projects/~/integrations/accept-terms/neon?source=cli
 
-Run `npm run check` for JavaScript syntax verification.
+After acceptance, provision each integration exactly once for this project. Review plans and costs before accepting paid resources. Keep all secret keys and database URLs server-side and out of source control. The pilot owner must provide the real café name/address and a report-review contact.
+
+## Implementation after provisioning
+
+Use Clerk for verified email and sessions and Neon for shared records. Verify sessions and permissions on every endpoint. Enforce expiry using server time and same-venue membership for discovery and invitations. Never expose emails or location histories through discovery. Empty cafés stay empty.
+
+Persist profiles, venues, expiring check-ins, invitations with atomic pending/accepted/declined/withdrawn transitions, bidirectional blocks, reports, and invitation limits. Blocking must remove discovery and invitation access in both directions. Accepting an invitation requires current venue presence for both people. Provide deletion/retention controls and an actual report-review process before collecting pilot data.
+
+Before opening, verify with two real accounts: email verification, same-venue discovery, cross-venue isolation, expiry, checkout, accept/decline/withdrawal, bidirectional blocking, rate limits, and report receipt. Do not claim readiness until deployed services pass these checks.
+
+## Local preview
+
+Run `npm start` with Node.js, then open http://127.0.0.1:3000. No installation is required for the current setup-status page. Run `npm run check` for server syntax verification. Vercel currently uses the Other preset and output directory `.`; configure the application framework after provisioning backend services.
